@@ -5,6 +5,10 @@ export default function BusinessConnectMobileFormPreview() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedNeeds, setSelectedNeeds] = useState([]);
   const [selectedGrowth, setSelectedGrowth] = useState([]);
+  const [selectedRevenue, setSelectedRevenue] = useState("");
+  const [selectedTeamSize, setSelectedTeamSize] = useState("");
+  const [selectedGrowthTrend, setSelectedGrowthTrend] = useState("");
+  const [selectedTimeCommitment, setSelectedTimeCommitment] = useState("");
 
   const toggleNeed = (item) =>
     setSelectedNeeds((prev) =>
@@ -29,13 +33,49 @@ export default function BusinessConnectMobileFormPreview() {
     "Operations", "Faith & Purpose",
   ];
 
-  const totalSteps = 4;
-  const progressWidth = ["w-1/4", "w-2/4", "w-3/4", "w-full"][step];
+  const revenueOptions = [
+    "Pre-revenue", "£0 – £2,000", "£2,000 – £10,000",
+    "£10,000 – £50,000", "£50,000+", "Prefer not to say",
+  ];
+
+  const teamSizeOptions = [
+    "Solo (just me)", "1–3 team members",
+    "4–10 team members", "10+ team members",
+  ];
+
+  const growthTrendOptions = [
+    "Just starting / not generating income yet",
+    "Slow growth", "Steady growth",
+    "Rapid growth", "Fluctuating / inconsistent",
+  ];
+
+  const timeCommitmentOptions = [
+    "Part-time (0–15 hrs/week)", "Growing commitment (15–30 hrs/week)",
+    "Full-time (30+ hrs/week)", "Transitioning into full-time",
+  ];
+
+  const totalSteps = 5;
+  const progressWidth = ["w-1/5", "w-2/5", "w-3/5", "w-4/5", "w-full"][step];
 
   const MultiChip = ({ item, selected, onToggle }) => (
     <button
       type="button"
       onClick={() => onToggle(item)}
+      aria-pressed={selected}
+      className={`px-3 py-2 rounded-full text-sm font-medium border transition active:scale-[0.97] select-none cursor-pointer ${
+        selected
+          ? "bg-amber-400 border-amber-400 text-white shadow-[0_6px_18px_rgba(251,191,36,0.45)]"
+          : "bg-white/65 border-white/60 text-slate-700 backdrop-blur-md shadow-[0_6px_24px_rgba(255,255,255,0.45)] hover:bg-white/80"
+      }`}
+    >
+      {selected && <span className="mr-1 text-xs">✓</span>}{item}
+    </button>
+  );
+
+  const SingleChip = ({ item, selected, onSelect }) => (
+    <button
+      type="button"
+      onClick={() => onSelect(item)}
       aria-pressed={selected}
       className={`px-3 py-2 rounded-full text-sm font-medium border transition active:scale-[0.97] select-none cursor-pointer ${
         selected
@@ -70,7 +110,7 @@ export default function BusinessConnectMobileFormPreview() {
       <div
         className="h-2 w-full overflow-hidden rounded-full bg-white/70"
         role="progressbar"
-        aria-valuenow={(step + 1) * 25}
+        aria-valuenow={Math.round((step + 1) / totalSteps * 100)}
         aria-valuemin={0}
         aria-valuemax={100}
       >
@@ -188,7 +228,7 @@ export default function BusinessConnectMobileFormPreview() {
           </ul>
         </div>
       </div>
-      <CTA label="Get Started — Step 1 of 4" />
+      <CTA label="Get Started — Step 1 of 5" />
     </>,
 
     /* ── Page 1: You & Your Business ── */
@@ -218,7 +258,7 @@ export default function BusinessConnectMobileFormPreview() {
           <textarea className={`${inputClass} min-h-[100px] resize-none`} placeholder="What does your business do? (keep it brief)" />
         </div>
       </div>
-      <CTA label="Continue — Step 2 of 4" />
+      <CTA label="Continue — Step 2 of 5" />
     </>,
 
     /* ── Page 2: Needs & Goals ── */
@@ -239,7 +279,7 @@ export default function BusinessConnectMobileFormPreview() {
           <p className="mt-3 text-xs text-amber-700 font-medium">{selectedNeeds.length} selected</p>
         )}
       </div>
-      <CTA label="Continue — Step 3 of 4" />
+      <CTA label="Continue — Step 3 of 5" />
     </>,
 
     /* ── Page 3: Growth & Direction ── */
@@ -272,6 +312,62 @@ export default function BusinessConnectMobileFormPreview() {
               <p className="mt-3 text-xs text-amber-700 font-medium">{selectedGrowth.length} selected</p>
             )}
           </div>
+        </div>
+      </div>
+      <CTA label="Continue — Step 4 of 5" />
+    </>,
+
+    /* ── Page 4: Business Capacity ── */
+    <>
+      <Header />
+      <div className="flex-1 overflow-y-auto px-5 pb-2">
+        <div className="mb-5">
+          <p className="text-sm font-medium text-amber-700">📊 Business Capacity</p>
+          <h3 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">Help us understand your business</h3>
+          <p className="mt-1 text-sm leading-6 text-slate-600">This helps us match you with the right people and conversations.</p>
+        </div>
+        <div className="space-y-5">
+
+          {/* Revenue */}
+          <div>
+            <p className="text-xs font-semibold text-slate-700 mb-2">💰 What is your current monthly revenue range?</p>
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Select revenue range">
+              {revenueOptions.map((item) => (
+                <SingleChip key={item} item={item} selected={selectedRevenue === item} onSelect={setSelectedRevenue} />
+              ))}
+            </div>
+          </div>
+
+          {/* Team Size */}
+          <div>
+            <p className="text-xs font-semibold text-slate-700 mb-2">👥 How is your business currently structured?</p>
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Select team size">
+              {teamSizeOptions.map((item) => (
+                <SingleChip key={item} item={item} selected={selectedTeamSize === item} onSelect={setSelectedTeamSize} />
+              ))}
+            </div>
+          </div>
+
+          {/* Growth Trend */}
+          <div>
+            <p className="text-xs font-semibold text-slate-700 mb-2">📈 How would you describe your business growth over the past 6 months?</p>
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Select growth trend">
+              {growthTrendOptions.map((item) => (
+                <SingleChip key={item} item={item} selected={selectedGrowthTrend === item} onSelect={setSelectedGrowthTrend} />
+              ))}
+            </div>
+          </div>
+
+          {/* Time Commitment */}
+          <div>
+            <p className="text-xs font-semibold text-slate-700 mb-2">🔄 How much time are you currently able to dedicate to your business?</p>
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Select time commitment">
+              {timeCommitmentOptions.map((item) => (
+                <SingleChip key={item} item={item} selected={selectedTimeCommitment === item} onSelect={setSelectedTimeCommitment} />
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
       <CTA label="Submit — Join the Group ✨" onPress={() => setSubmitted(true)} />
