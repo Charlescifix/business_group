@@ -302,7 +302,7 @@ export default function BusinessConnectMobileFormPreview() {
             <option value="pivoting">Transitioning / pivoting</option>
           </select>
           <div>
-            <p className="text-xs font-medium text-slate-500 mb-2">Select focus areas</p>
+            <p className="text-sm font-bold text-slate-800 mb-2">Select focus areas</p>
             <div className="flex flex-wrap gap-2" role="group" aria-label="Select growth focus areas">
               {growthOptions.map((item) => (
                 <MultiChip key={item} item={item} selected={selectedGrowth.includes(item)} onToggle={toggleGrowth} />
@@ -320,17 +320,17 @@ export default function BusinessConnectMobileFormPreview() {
     /* ── Page 4: Business Capacity ── */
     <>
       <Header />
-      <div className="flex-1 overflow-y-auto px-5 pb-2">
+      <div className="flex-1 overflow-y-auto px-5 pb-4">
         <div className="mb-5">
           <p className="text-sm font-medium text-amber-700">📊 Business Capacity</p>
           <h3 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">Help us understand your business</h3>
           <p className="mt-1 text-sm leading-6 text-slate-600">This helps us match you with the right people and conversations.</p>
         </div>
-        <div className="space-y-5">
+        <div className="space-y-4">
 
           {/* Revenue */}
-          <div>
-            <p className="text-xs font-semibold text-slate-700 mb-2">💰 What is your current monthly revenue range?</p>
+          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
+            <p className="text-sm font-bold text-slate-800 mb-3">💰 What is your current monthly revenue range?</p>
             <div className="flex flex-wrap gap-2" role="group" aria-label="Select revenue range">
               {revenueOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedRevenue === item} onSelect={setSelectedRevenue} />
@@ -339,8 +339,8 @@ export default function BusinessConnectMobileFormPreview() {
           </div>
 
           {/* Team Size */}
-          <div>
-            <p className="text-xs font-semibold text-slate-700 mb-2">👥 How is your business currently structured?</p>
+          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
+            <p className="text-sm font-bold text-slate-800 mb-3">👥 How is your business currently structured?</p>
             <div className="flex flex-wrap gap-2" role="group" aria-label="Select team size">
               {teamSizeOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedTeamSize === item} onSelect={setSelectedTeamSize} />
@@ -349,8 +349,8 @@ export default function BusinessConnectMobileFormPreview() {
           </div>
 
           {/* Growth Trend */}
-          <div>
-            <p className="text-xs font-semibold text-slate-700 mb-2">📈 How would you describe your business growth over the past 6 months?</p>
+          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
+            <p className="text-sm font-bold text-slate-800 mb-3">📈 How would you describe your growth over the past 6 months?</p>
             <div className="flex flex-wrap gap-2" role="group" aria-label="Select growth trend">
               {growthTrendOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedGrowthTrend === item} onSelect={setSelectedGrowthTrend} />
@@ -359,8 +359,8 @@ export default function BusinessConnectMobileFormPreview() {
           </div>
 
           {/* Time Commitment */}
-          <div>
-            <p className="text-xs font-semibold text-slate-700 mb-2">🔄 How much time are you currently able to dedicate to your business?</p>
+          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
+            <p className="text-sm font-bold text-slate-800 mb-3">🔄 How much time can you dedicate to your business?</p>
             <div className="flex flex-wrap gap-2" role="group" aria-label="Select time commitment">
               {timeCommitmentOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedTimeCommitment === item} onSelect={setSelectedTimeCommitment} />
