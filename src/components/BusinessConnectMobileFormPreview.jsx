@@ -23,6 +23,9 @@ export default function BusinessConnectMobileFormPreview() {
   const inputClass =
     "w-full rounded-2xl border border-white/70 bg-white/70 backdrop-blur-md px-4 py-3 text-[16px] text-slate-800 placeholder:text-slate-400 shadow-[0_10px_30px_rgba(255,255,255,0.35)] outline-none focus:ring-2 focus:ring-amber-200";
 
+  const selectClass =
+    "w-full rounded-2xl border border-white/70 bg-white/80 backdrop-blur-md px-4 py-3 text-[16px] text-slate-800 shadow-[0_10px_30px_rgba(255,255,255,0.35)] outline-none focus:ring-2 focus:ring-amber-200 appearance-none cursor-pointer";
+
   const needsOptions = [
     "Sales", "Marketing", "Leadership", "Finances",
     "Operations", "Systems & Scaling", "Faith & Purpose", "Other",
@@ -44,29 +47,31 @@ export default function BusinessConnectMobileFormPreview() {
   ];
 
   const growthTrendOptions = [
-    "Just starting / not generating income yet",
-    "Slow growth", "Steady growth",
+    "Just starting out", "Slow growth", "Steady growth",
     "Rapid growth", "Fluctuating / inconsistent",
   ];
 
   const timeCommitmentOptions = [
-    "Part-time (0–15 hrs/week)", "Growing commitment (15–30 hrs/week)",
-    "Full-time (30+ hrs/week)", "Transitioning into full-time",
+    "Part-time (0–15 hrs/week)", "Growing (15–30 hrs/week)",
+    "Full-time (30+ hrs/week)", "Transitioning to full-time",
   ];
 
   const totalSteps = 5;
   const progressWidth = ["w-1/5", "w-2/5", "w-3/5", "w-4/5", "w-full"][step];
+
+  const chipBase =
+    "px-4 py-2.5 rounded-full text-sm font-medium border transition active:scale-[0.97] select-none cursor-pointer leading-snug";
+  const chipActive =
+    "bg-amber-400 border-amber-400 text-white shadow-[0_6px_18px_rgba(251,191,36,0.45)]";
+  const chipIdle =
+    "bg-white/80 border-slate-200 text-slate-700 backdrop-blur-md shadow-sm hover:bg-white hover:border-amber-200";
 
   const MultiChip = ({ item, selected, onToggle }) => (
     <button
       type="button"
       onClick={() => onToggle(item)}
       aria-pressed={selected}
-      className={`px-3 py-2 rounded-full text-sm font-medium border transition active:scale-[0.97] select-none cursor-pointer ${
-        selected
-          ? "bg-amber-400 border-amber-400 text-white shadow-[0_6px_18px_rgba(251,191,36,0.45)]"
-          : "bg-white/65 border-white/60 text-slate-700 backdrop-blur-md shadow-[0_6px_24px_rgba(255,255,255,0.45)] hover:bg-white/80"
-      }`}
+      className={`${chipBase} ${selected ? chipActive : chipIdle}`}
     >
       {selected && <span className="mr-1 text-xs">✓</span>}{item}
     </button>
@@ -77,14 +82,20 @@ export default function BusinessConnectMobileFormPreview() {
       type="button"
       onClick={() => onSelect(item)}
       aria-pressed={selected}
-      className={`px-3 py-2 rounded-full text-sm font-medium border transition active:scale-[0.97] select-none cursor-pointer ${
-        selected
-          ? "bg-amber-400 border-amber-400 text-white shadow-[0_6px_18px_rgba(251,191,36,0.45)]"
-          : "bg-white/65 border-white/60 text-slate-700 backdrop-blur-md shadow-[0_6px_24px_rgba(255,255,255,0.45)] hover:bg-white/80"
-      }`}
+      className={`${chipBase} ${selected ? chipActive : chipIdle}`}
     >
       {selected && <span className="mr-1 text-xs">✓</span>}{item}
     </button>
+  );
+
+  /* Reusable question card wrapper */
+  const QuestionCard = ({ label, hint, children }) => (
+    <div className="rounded-[20px] border border-orange-100 bg-white px-4 pt-4 pb-5 shadow-sm">
+      <p className="text-sm font-bold text-slate-800 mb-1">{label}</p>
+      {hint && <p className="text-xs text-slate-500 mb-3">{hint}</p>}
+      {!hint && <div className="mb-3" />}
+      {children}
+    </div>
   );
 
   const BackButton = () =>
@@ -144,7 +155,6 @@ export default function BusinessConnectMobileFormPreview() {
             <div className="pointer-events-none absolute bottom-20 left-10 h-24 w-24 rounded-full bg-yellow-100/60 blur-3xl" aria-hidden="true" />
 
             <div className="relative flex flex-1 flex-col overflow-y-auto px-6 py-8 justify-between">
-              {/* Top: icon + heading */}
               <div className="flex flex-col items-center text-center pt-4">
                 <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-orange-400 text-4xl shadow-[0_12px_30px_rgba(249,115,22,0.3)] mb-5">
                   🎉
@@ -160,7 +170,6 @@ export default function BusinessConnectMobileFormPreview() {
                 </p>
               </div>
 
-              {/* Middle: what happens next */}
               <div className="mt-6 rounded-[24px] border border-orange-100 bg-white p-5 shadow-sm space-y-3">
                 <p className="text-sm font-semibold text-slate-800">What your information helps us do</p>
                 <ul className="grid gap-2 text-sm text-slate-600">
@@ -179,7 +188,6 @@ export default function BusinessConnectMobileFormPreview() {
                 </ul>
               </div>
 
-              {/* Bottom: data rights notice */}
               <p className="mt-5 text-center text-xs text-slate-400 leading-5 px-2">
                 Your data is held with care and used only to support you within this community.{" "}
                 <span className="text-slate-500 underline underline-offset-2 cursor-pointer hover:text-amber-700 transition">
@@ -198,7 +206,7 @@ export default function BusinessConnectMobileFormPreview() {
     <>
       <Header />
       <div className="flex-1 overflow-y-auto px-5 pb-2">
-        <div className="mb-4">
+        <div className="mb-5">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700/80">Business Connect</p>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">Join the community</h1>
         </div>
@@ -212,16 +220,16 @@ export default function BusinessConnectMobileFormPreview() {
               </p>
             </div>
           </div>
-          <ul className="mt-4 grid gap-2 text-sm">
-            <li className="flex items-center gap-2 rounded-2xl bg-amber-50 px-3 py-2.5 text-amber-800 font-medium">
+          <ul className="mt-4 grid gap-2.5 text-sm">
+            <li className="flex items-center gap-2 rounded-2xl bg-amber-50 px-3 py-3 text-amber-800 font-medium">
               <span className="text-base">🗓</span>
               <span>Fortnightly on Monday · <strong>7:30pm</strong></span>
             </li>
-            <li className="flex items-start gap-2 rounded-2xl bg-slate-50 px-3 py-2.5 text-slate-700">
+            <li className="flex items-start gap-2 rounded-2xl bg-slate-50 px-3 py-3 text-slate-700">
               <span className="text-base mt-0.5">📍</span>
               <span>Caribbean Dutch Pot, 7 Abington Square, Northampton NN1 4AE</span>
             </li>
-            <li className="flex items-center gap-2 rounded-2xl bg-emerald-50 px-3 py-2.5 text-emerald-800 font-medium">
+            <li className="flex items-center gap-2 rounded-2xl bg-emerald-50 px-3 py-3 text-emerald-800 font-medium">
               <span className="text-base">✅</span>
               <span>Leader: Yvett · <strong>Sign up open</strong></span>
             </li>
@@ -240,22 +248,35 @@ export default function BusinessConnectMobileFormPreview() {
           <h3 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">Who are you &amp; what do you do?</h3>
           <p className="mt-1 text-sm leading-6 text-slate-600">Just enough to make your introductions meaningful.</p>
         </div>
-        <div className="space-y-3">
-          <input className={inputClass} type="text" placeholder="Full name" autoComplete="name" />
-          <input className={inputClass} type="email" placeholder="Email address" autoComplete="email" />
-          <input className={inputClass} type="tel" placeholder="Phone number" autoComplete="tel" />
-          <input className={inputClass} type="text" placeholder="Business name" autoComplete="organization" />
-          <div className="grid grid-cols-2 gap-3">
-            <input className={inputClass} type="text" placeholder="Industry" />
-            <select className={inputClass} defaultValue="">
-              <option value="" disabled>Stage</option>
-              <option value="idea">Idea</option>
-              <option value="startup">Startup</option>
-              <option value="growing">Growing</option>
-              <option value="established">Established</option>
-            </select>
+
+        <div className="space-y-4">
+          {/* Contact info group */}
+          <div className="rounded-[20px] border border-orange-100 bg-white px-4 pt-4 pb-5 shadow-sm space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 mb-1">Contact info</p>
+            <input className={inputClass} type="text" placeholder="Full name" autoComplete="name" />
+            <input className={inputClass} type="email" placeholder="Email address" autoComplete="email" />
+            <input className={inputClass} type="tel" placeholder="Phone number" autoComplete="tel" />
           </div>
-          <textarea className={`${inputClass} min-h-[100px] resize-none`} placeholder="What does your business do? (keep it brief)" />
+
+          {/* Business info group */}
+          <div className="rounded-[20px] border border-orange-100 bg-white px-4 pt-4 pb-5 shadow-sm space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400 mb-1">Business info</p>
+            <input className={inputClass} type="text" placeholder="Business name" autoComplete="organization" />
+            <div className="grid grid-cols-2 gap-3">
+              <input className={inputClass} type="text" placeholder="Industry" />
+              <div className="relative">
+                <select className={selectClass} defaultValue="">
+                  <option value="" disabled>Stage</option>
+                  <option value="idea">Idea</option>
+                  <option value="startup">Startup</option>
+                  <option value="growing">Growing</option>
+                  <option value="established">Established</option>
+                </select>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">▾</span>
+              </div>
+            </div>
+            <textarea className={`${inputClass} min-h-[90px] resize-none`} placeholder="What does your business do? (keep it brief)" />
+          </div>
         </div>
       </div>
       <CTA label="Continue — Step 2 of 5" />
@@ -270,14 +291,20 @@ export default function BusinessConnectMobileFormPreview() {
           <h3 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">Where do you need the most support?</h3>
           <p className="mt-1 text-sm leading-6 text-slate-600">Select all that apply.</p>
         </div>
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Select your needs">
-          {needsOptions.map((item) => (
-            <MultiChip key={item} item={item} selected={selectedNeeds.includes(item)} onToggle={toggleNeed} />
-          ))}
-        </div>
-        {selectedNeeds.length > 0 && (
-          <p className="mt-3 text-xs text-amber-700 font-medium">{selectedNeeds.length} selected</p>
-        )}
+
+        <QuestionCard
+          label="Choose your support areas"
+          hint="Tap each area that feels relevant to where you are right now."
+        >
+          <div className="flex flex-wrap gap-2.5" role="group" aria-label="Select your needs">
+            {needsOptions.map((item) => (
+              <MultiChip key={item} item={item} selected={selectedNeeds.includes(item)} onToggle={toggleNeed} />
+            ))}
+          </div>
+          {selectedNeeds.length > 0 && (
+            <p className="mt-3 text-xs text-amber-700 font-semibold">{selectedNeeds.length} selected</p>
+          )}
+        </QuestionCard>
       </div>
       <CTA label="Continue — Step 3 of 5" />
     </>,
@@ -291,27 +318,45 @@ export default function BusinessConnectMobileFormPreview() {
           <h3 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">Where are you heading?</h3>
           <p className="mt-1 text-sm text-slate-600">So we can connect you with the right people.</p>
         </div>
+
         <div className="space-y-4">
-          <textarea className={`${inputClass} min-h-[90px] resize-none`} placeholder="My main business goal for the next 6–12 months…" />
-          <select className={inputClass} defaultValue="">
-            <option value="" disabled>Current focus stage</option>
-            <option value="building">Building foundations</option>
-            <option value="growing">Growing revenue</option>
-            <option value="scaling">Scaling systems</option>
-            <option value="expanding">Expanding reach</option>
-            <option value="pivoting">Transitioning / pivoting</option>
-          </select>
-          <div>
-            <p className="text-sm font-bold text-slate-800 mb-2">Select focus areas</p>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Select growth focus areas">
+          {/* Goal textarea */}
+          <QuestionCard label="What's your main goal for the next 6–12 months?">
+            <textarea
+              className={`${inputClass} min-h-[90px] resize-none`}
+              placeholder="e.g. Hit £5k/month, launch a new product, build a team…"
+            />
+          </QuestionCard>
+
+          {/* Focus stage dropdown */}
+          <QuestionCard label="What stage are you currently focused on?">
+            <div className="relative">
+              <select className={selectClass} defaultValue="">
+                <option value="" disabled>Choose a stage…</option>
+                <option value="building">Building foundations</option>
+                <option value="growing">Growing revenue</option>
+                <option value="scaling">Scaling systems</option>
+                <option value="expanding">Expanding reach</option>
+                <option value="pivoting">Transitioning / pivoting</option>
+              </select>
+              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">▾</span>
+            </div>
+          </QuestionCard>
+
+          {/* Growth focus chips */}
+          <QuestionCard
+            label="Which areas are you focused on growing?"
+            hint="Select all that apply."
+          >
+            <div className="flex flex-wrap gap-2.5" role="group" aria-label="Select growth focus areas">
               {growthOptions.map((item) => (
                 <MultiChip key={item} item={item} selected={selectedGrowth.includes(item)} onToggle={toggleGrowth} />
               ))}
             </div>
             {selectedGrowth.length > 0 && (
-              <p className="mt-3 text-xs text-amber-700 font-medium">{selectedGrowth.length} selected</p>
+              <p className="mt-3 text-xs text-amber-700 font-semibold">{selectedGrowth.length} selected</p>
             )}
-          </div>
+          </QuestionCard>
         </div>
       </div>
       <CTA label="Continue — Step 4 of 5" />
@@ -326,48 +371,43 @@ export default function BusinessConnectMobileFormPreview() {
           <h3 className="mt-1 text-xl font-semibold tracking-tight text-slate-900">Help us understand your business</h3>
           <p className="mt-1 text-sm leading-6 text-slate-600">This helps us match you with the right people and conversations.</p>
         </div>
-        <div className="space-y-4">
 
+        <div className="space-y-4">
           {/* Revenue */}
-          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
-            <p className="text-sm font-bold text-slate-800 mb-3">💰 What is your current monthly revenue range?</p>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Select revenue range">
+          <QuestionCard label="💰 Current monthly revenue range?">
+            <div className="flex flex-wrap gap-2.5" role="group" aria-label="Select revenue range">
               {revenueOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedRevenue === item} onSelect={setSelectedRevenue} />
               ))}
             </div>
-          </div>
+          </QuestionCard>
 
           {/* Team Size */}
-          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
-            <p className="text-sm font-bold text-slate-800 mb-3">👥 How is your business currently structured?</p>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Select team size">
+          <QuestionCard label="👥 How is your business currently structured?">
+            <div className="flex flex-wrap gap-2.5" role="group" aria-label="Select team size">
               {teamSizeOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedTeamSize === item} onSelect={setSelectedTeamSize} />
               ))}
             </div>
-          </div>
+          </QuestionCard>
 
           {/* Growth Trend */}
-          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
-            <p className="text-sm font-bold text-slate-800 mb-3">📈 How would you describe your growth over the past 6 months?</p>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Select growth trend">
+          <QuestionCard label="📈 Growth over the past 6 months?">
+            <div className="flex flex-wrap gap-2.5" role="group" aria-label="Select growth trend">
               {growthTrendOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedGrowthTrend === item} onSelect={setSelectedGrowthTrend} />
               ))}
             </div>
-          </div>
+          </QuestionCard>
 
           {/* Time Commitment */}
-          <div className="rounded-[20px] border border-orange-100 bg-white p-4 shadow-sm">
-            <p className="text-sm font-bold text-slate-800 mb-3">🔄 How much time can you dedicate to your business?</p>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Select time commitment">
+          <QuestionCard label="🕐 How much time do you dedicate to your business?">
+            <div className="flex flex-wrap gap-2.5" role="group" aria-label="Select time commitment">
               {timeCommitmentOptions.map((item) => (
                 <SingleChip key={item} item={item} selected={selectedTimeCommitment === item} onSelect={setSelectedTimeCommitment} />
               ))}
             </div>
-          </div>
-
+          </QuestionCard>
         </div>
       </div>
       <CTA label="Submit — Join the Group ✨" onPress={() => setSubmitted(true)} />
